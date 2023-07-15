@@ -1,0 +1,102 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+		integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+	<title>Ticket Tracker Application</title>
+</head>
+
+<body>
+	<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+		<div class="container-fluid">
+			<ul class="navbar-nav">
+				<li class="nav-item">
+					<h3 class="nav-link" style="color :rgb(192, 192, 192);">Ticket Tracker Application</h3>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" id="add"
+						style="color :rgb(192, 192, 192); font-size: 20.8px; margin-top: 0.15em;"
+						href="tickets">Tickets</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" id="add"
+						style="color :rgb(192, 192, 192); font-size: 20.8px; margin-top: 0.15em;" href="add">New
+						Tickets</a>
+				</li>
+			</ul>
+			<form class="d-flex input-group w-auto ms-lg-3 my-3 my-lg-0" action="#" th:action="@{/admin/search}" method="GET">
+				<input type="text" class="form-control" name="keyword" th:value="${keyword}"
+						placeholder="Enter Ticket Title or Description" aria-label="Search"/>
+				<button class="btn btn-secondary" type="submit" data-mdb-ripple-color="dark">
+					Search
+				</button>
+			</form>
+		</div>
+	</nav>
+	<div>
+		<h3 style="text-align: center; color: darkslategrey;">List of tickets</h3>
+	</div>
+
+	<table class="table table-bordered table-striped">
+		<thead class="thead-dark">
+			<tr>
+				<th>#</th>
+				<th>Ticket Title</th>
+				<th>Ticket Short Description</th>
+				<th>Ticket Created On</th>
+				<th>Action</th>
+			</tr>
+		</thead>
+		<tbody>
+			<!-- For loop in thymeleaf-->
+			<tr th:each="ticket : ${tickets}">
+				<td th:text="${ticket.id}"></td>
+				<td th:text="${ticket.title}"></td>
+				<td th:text="${ticket.description}"></td>
+				<td th:text="${ticket.createdOn}"></td>
+				<td>
+					<div class="row">
+
+						<div class="col-small">
+							<!-- Add "update" button/link -->
+							<form class="d-flex input-group w-auto ms-lg-3 my-3 my-lg-0" action="#" th:action="@{/admin/update}" method="POST">
+
+								<input type="hidden" name="id" th:value="${ticket.id}" />
+								<button type="submit" class="btn btn-primary btn-sm ml-3 mr-1">Edit</button>
+
+							</form>
+						</div>
+
+						<div class="col-small">
+							<!-- Add "delete" button/link -->
+							<form action="#" th:action="@{/admin/delete}" method="POST">
+
+								<input type="hidden" name="id" th:value="${ticket.id}" />
+								<button type="submit" class="btn btn-danger btn-sm"
+									onclick="if (!(confirm('Are you sure you want to delete this ticket?'))) return false">
+									Delete
+								</button>
+							</form>
+						</div>
+						<div class="col-small">
+							<!-- Add "delete" button/link -->
+							<form action="#" th:action="@{/admin/view}" method="POST">
+
+								<input type="hidden" name="id" th:value="${ticket.id}" />
+								<button type="submit" class="btn btn-info btn-sm ml-1 mr-1">
+									View
+								</button>
+							</form>
+						</div>
+					</div>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</body>
